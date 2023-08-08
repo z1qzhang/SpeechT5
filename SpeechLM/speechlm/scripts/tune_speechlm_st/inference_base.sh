@@ -21,11 +21,12 @@ CODE_ROOT=${PWD}
 results_path=$src_dir/decode_${cpt}_beam${beam_size}/${gen_set}
 [ ! -d $results_path ] && mkdir -p $results_path
 
+export PYTHONPATH=$CODE_ROOT/fairseq
 python $CODE_ROOT/fairseq/fairseq_cli/generate.py $DATA_DIR \
     --gen-subset ${gen_set}_st_en_${lang}_local \
     --max-tokens 2300000 \
     --max-source-positions 2300000 \
-    --num-workers 0 \
+    --num-workers 4 \
     \
     --user-dir $CODE_ROOT/speechlm \
     --task speech_to_text \
@@ -37,6 +38,7 @@ python $CODE_ROOT/fairseq/fairseq_cli/generate.py $DATA_DIR \
     --scoring sacrebleu --max-len-a 0 --max-len-b 512 \
     --beam ${beam_size} \
     --lenpen $lenpen \
+    --model-overrides={\'w2v_path\':\'$CODE_ROOT/speechlm/config/pretrain/speechlmp_base_cfg.pt\'} \
 
     echo $results_path
     tail -n 1 $results_path/generate-*.txt

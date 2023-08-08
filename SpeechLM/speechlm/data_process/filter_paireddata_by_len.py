@@ -29,17 +29,21 @@ def main():
     parser.add_argument("--max-len", "-m", default=2998, type=int)
     args = parser.parse_args()
     
-    src_lines, tgt_lines = [], []
+    # src_lines, tgt_lines = [], []
+    src_f = open(f"{args.output}.{args.src}", "w")
+    tgt_f = open(f"{args.output}.{args.tgt}", "w")
     with open(f"{args.input}.{args.src}", 'r') as f1, open(f"{args.input}.{args.tgt}", 'r') as f2: 
         for src_line, tgt_line in tqdm(zip(f1, f2)):
             src_len = len(src_line.strip().split())
             tgt_len = len(tgt_line.strip().split())
             if src_len < args.max_len and src_len > 0 and tgt_len < args.max_len and tgt_len > 0:
-                src_lines.append(src_line)
-                tgt_lines.append(tgt_line)
+                # src_lines.append(src_line)
+                # tgt_lines.append(tgt_line)
+                src_f.write(src_line)
+                tgt_f.write(tgt_line)
 
-    writefile(f"{args.output}.{args.src}", src_lines)
-    writefile(f"{args.output}.{args.tgt}", tgt_lines)
+    # writefile(f"{args.output}.{args.src}", src_lines)
+    # writefile(f"{args.output}.{args.tgt}", tgt_lines)
 
 if __name__ == "__main__":
     main()

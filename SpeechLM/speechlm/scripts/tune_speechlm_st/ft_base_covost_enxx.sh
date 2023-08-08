@@ -20,6 +20,7 @@ CODE_ROOT=${PWD}
 exp_name=${w2v_path%/*}
 exp_name=${exp_name##*/}
 
+export PYTHONPATH=$CODE_ROOT/fairseq
 for seed in 1 2 3; do 
     MODEL_DIR="$mount/exp/finetune_covost/$exp_name/legacy_en${lang}_from_${cpt}_bz3.2m_lr1e-4_seed${seed}"
     [ -d $MODEL_DIR ] || mkdir -p $MODEL_DIR
